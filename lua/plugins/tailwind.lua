@@ -1,3 +1,4 @@
+-- This is of CSS
 return {
   {
     "neovim/nvim-lspconfig",
@@ -6,6 +7,12 @@ return {
         tailwindcss = {},
       },
     },
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = function(_, opts)
+      table.insert(opts.ensure_installed, "tailwindcss-language-server")
+    end,
   },
   {
     "NvChad/nvim-colorizer.lua",
