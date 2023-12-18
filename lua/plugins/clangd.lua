@@ -2,6 +2,7 @@ return {
   {
     "williamboman/mason.nvim",
     opts = function(_, opts)
+      table.insert(opts.ensure_installed, "clangd") -- LSP
       table.insert(opts.ensure_installed, "clang-format") -- Formatter
     end,
   },
