@@ -10,9 +10,46 @@ return {
     "nvimtools/none-ls.nvim",
     opts = function(_, opts)
       local nls = require("null-ls")
-      table.insert(opts.sources, nls.builtins.formatting.shfmt)
+
+      -- Remove shfmt from none-ls: Let conform deal with it
+      local to_remove = -1
+      for index, entry in ipairs(opts.sources) do
+        if entry.name == "shfmt" then
+          to_remove = index
+          break
+        end
+      end
+      if to_remove ~= -1 then
+        table.remove(opts.sources, to_remove)
+      end
+
+      -- Keep shellcheck with none-ls
       table.insert(opts.sources, nls.builtins.diagnostics.shellcheck)
       table.insert(opts.sources, nls.builtins.code_actions.shellcheck)
     end,
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      format = {
+        timeout_ms = 3000,
+        async = false, -- not recommended to change
+        quiet = false, -- not recommended to change
+      },
+      ---@type table<string, conform.FormatterUnit[]>
+      formatters_by_ft = {
+        sh = { "shfmt" },
+      },
+      ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
+      formatters = {
+        injected = { options = { ignore_errors = true } },
+        shfmt = {
+          -- -i 2 : Indent 2 spaces
+          -- -ci  : Switch cases will be indented
+          -- -sr  : Redirect operators will be followed by a space
+          prepend_args = { "-i", "2", "-ci", "-sr" },
+        },
+      },
+    },
   },
 }
