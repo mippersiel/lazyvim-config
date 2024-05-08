@@ -8,9 +8,10 @@ return {
   },
   {
     "nvimtools/none-ls.nvim",
+    dependencies = {
+      "gbprod/none-ls-shellcheck.nvim",
+    },
     opts = function(_, opts)
-      local nls = require("null-ls")
-
       -- Remove shfmt from none-ls: Let conform deal with it
       local to_remove = -1
       for index, entry in ipairs(opts.sources) do
@@ -24,8 +25,8 @@ return {
       end
 
       -- Keep shellcheck with none-ls
-      table.insert(opts.sources, nls.builtins.diagnostics.shellcheck)
-      table.insert(opts.sources, nls.builtins.code_actions.shellcheck)
+      table.insert(opts.sources, require("none-ls-shellcheck.diagnostics"))
+      table.insert(opts.sources, require("none-ls-shellcheck.code_actions"))
     end,
   },
   {
