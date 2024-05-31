@@ -20,5 +20,6 @@ return {
         never_show = {},
       },
     },
+    window = { auto_expand_width = true },
   },
 }
