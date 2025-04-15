@@ -17,7 +17,7 @@ return {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        php = { "php-cs-fixer" },
+        php = { "php_cs_fixer" },
       },
     },
   },
